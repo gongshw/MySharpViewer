@@ -1,10 +1,18 @@
-<div class='container-fluid'>
-    <div class='row'>
-        <div class='col-sm-3'>
-            <nav-menu></nav-menu>
-        </div>
-        <div class='col-sm-9 body-content'>
-            <router-outlet></router-outlet>
-        </div>
-    </div>
+<md-toolbar color="primary">MySharpView</md-toolbar>
+
+<div>
+    <md-tab-group>
+        <md-tab label="连接">
+            <connection-panel></connection-panel>
+        </md-tab>
+        <md-tab label="结构">
+            结构
+        </md-tab>
+        <md-tab label="数据">
+            数据
+        </md-tab>
+        <md-tab label="查询">
+            查询
+        </md-tab>
+    </md-tab-group>
 </div>

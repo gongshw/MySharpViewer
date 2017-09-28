@@ -4,3 +4,5 @@
         padding-top: 50px;
     }
 }
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";

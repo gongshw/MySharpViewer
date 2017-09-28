@@ -2,15 +2,20 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppModuleShared } from './app.module.shared';
 import { AppComponent } from './components/app/app.component';
+import { DatabaseService } from './components/database/database.service';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-    bootstrap: [ AppComponent ],
+    bootstrap: [AppComponent],
     imports: [
         BrowserModule,
-        AppModuleShared
+        AppModuleShared,
+        BrowserAnimationsModule
     ],
     providers: [
-        { provide: 'BASE_URL', useFactory: getBaseUrl }
+        { provide: 'BASE_URL', useFactory: getBaseUrl },
+        DatabaseService
     ]
 })
 export class AppModule {

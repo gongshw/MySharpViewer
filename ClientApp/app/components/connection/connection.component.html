@@ -1,0 +1,61 @@
+<div *ngIf="loading">
+    <md-progress-bar mode="indeterminate"></md-progress-bar>
+</div>
+
+<div *ngIf="!initing">
+    <div *ngIf="!database.instance" class="connection-panel">
+        <md-card class="connect-form">
+            <md-card-header>
+                <md-card-title>连接到数据库</md-card-title>
+            </md-card-header>
+            <md-card-content>
+                <p *ngIf="error" style="color:red">
+                    {{error}}
+                </p>
+                <form>
+                    <md-form-field class="connect-form-field">
+                        <input mdInput placeholder="主机" required [(ngModel)]="connection.host" name="host">
+                    </md-form-field>
+                    <md-form-field class="connect-form-field">
+                        <input mdInput type="number" placeholder="端口" required [(ngModel)]="connection.port" name="port">
+                    </md-form-field>
+                    <md-form-field class="connect-form-field">
+                        <input mdInput placeholder="用户名" required [(ngModel)]="connection.username" name="username">
+                    </md-form-field>
+                    <md-form-field class="connect-form-field">
+                        <input mdInput placeholder="密码" required [(ngModel)]="connection.password" name="password">
+                    </md-form-field>
+                    <md-form-field class="connect-form-field">
+                        <input mdInput placeholder="数据库" required [(ngModel)]="connection.database" name="database">
+                    </md-form-field>
+                </form>
+            </md-card-content>
+            <md-card-actions>
+                <button md-button (click)="openConnection()">连接</button>
+            </md-card-actions>
+        </md-card>
+    </div>
+
+    <div *ngIf="database.instance" class="connection-panel">
+        <md-card class="connect-form">
+            <md-card-header>
+                <md-card-title>实例: {{database.instance.instance.name}}</md-card-title>
+            </md-card-header>
+            <md-card-content>
+                <md-select placeholder="数据库" class="connect-form-field" [(ngModel)]="database.database">
+                    <md-option *ngFor="let db of database.instance.instance.databases" [value]="db.name">
+                        {{ db.name }}
+                    </md-option>
+                </md-select>
+                <md-select placeholder="表" class="connect-form-field" [(ngModel)]="database.table" *ngIf="database.database">
+                    <md-option *ngFor="let tbl of database.currentDb().tables" [value]="tbl.name">
+                        {{ tbl.name }}
+                    </md-option>
+                </md-select>
+            </md-card-content>
+            <md-card-actions>
+                <button md-button (click)="closeConnection()">切换实例</button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</div>
