@@ -48,5 +48,7 @@ export class ConnectionPanel implements AfterViewInit {
 
     public closeConnection() {
         this.database.instance = undefined;
+        this.database.database = '';
+        this.database.table = '';
     }
 }
