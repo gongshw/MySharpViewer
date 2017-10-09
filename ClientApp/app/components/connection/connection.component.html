@@ -47,7 +47,7 @@
                         {{ db.name }}
                     </md-option>
                 </md-select>
-                <md-select placeholder="表" class="connect-form-field" [(ngModel)]="database.table" *ngIf="database.database">
+                <md-select placeholder="表" class="connect-form-field" [(ngModel)]="database.table" *ngIf="database.database" (ngModelChange)="updateTable($event)">
                     <md-option *ngFor="let tbl of database.currentDb().tables" [value]="tbl.name">
                         {{ tbl.name }}
                     </md-option>

@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
-
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class DatabaseService {
@@ -12,6 +13,8 @@ export class DatabaseService {
     public database: string;
 
     public table: string;
+
+    public columns: Subject<Column[]> = new Subject();
 
     currentDb(): any {
         if (!this.database || !this.instance) {
@@ -36,4 +39,11 @@ export class Connection {
         public password: string = 'root',
         public database: string = ''
     ) { }
+}
+export interface Column {
+    field: string;
+    type: string;
+    key: string;
+    extra: string;
+    comment: string;
 }

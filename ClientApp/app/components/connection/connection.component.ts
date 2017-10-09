@@ -51,4 +51,33 @@ export class ConnectionPanel implements AfterViewInit {
         this.database.database = '';
         this.database.table = '';
     }
+
+    public updateTable(event: Event) {
+        this.http.post(
+            this.baseUrl + 'api/Database/Query',
+            JSON.stringify({
+                database: this.database.database,
+                sql: "show full columns from " + this.database.table
+            }),
+            new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) })
+        ).subscribe(
+            result => {
+                var struct = result.json();
+                console.log(struct);
+                this.database.columns.next(struct.data.map(
+                    (e: any) => {
+                        return {
+                            field: e[0],
+                            type: e[1],
+                            key: e[4],
+                            extra: e[6],
+                            comment: e[8],
+                        }
+                    }
+                ));
+            },
+            error => console.error(error),
+            () => this.loading = false
+            );
+    }
 }

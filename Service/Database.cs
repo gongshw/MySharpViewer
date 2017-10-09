@@ -58,12 +58,8 @@ namespace MySharpView.Service
             instanceConnection.Instance.Databases = new List<Database>();
 
             string connStr = $"server={this.host};user={this.username};database={this.database};port={this.port};password={this.password};SslMode=none";
-            MySqlConnection mySqlConnection;
-            if (InstancePool.pool.ContainsKey(connStr))
-            {
-                mySqlConnection = InstancePool.pool[connStr];
-            }
-            else
+            MySqlConnection mySqlConnection = innerConnection();
+            if (mySqlConnection == null)
             {
                 mySqlConnection = new MySqlConnection(connStr);
                 mySqlConnection.Open();
@@ -89,6 +85,26 @@ namespace MySharpView.Service
 
             return instanceConnection;
         }
+
+        public QueryResult Query(string database, string sql)
+        {
+            MySqlConnection mySqlConnection = innerConnection();
+            mySqlConnection.ChangeDatabase(database);
+            return mySqlConnection.Query(sql);
+        }
+
+        private MySqlConnection innerConnection()
+        {
+            string connStr = $"server={this.host};user={this.username};database={this.database};port={this.port};password={this.password};SslMode=none";
+            if (InstancePool.pool.ContainsKey(connStr))
+            {
+                return InstancePool.pool[connStr];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 
     public static class MysqlExtensions
@@ -113,7 +129,14 @@ namespace MySharpView.Service
                         string[] row = new string[dataReader.FieldCount];
                         for (int i = 0; i < dataReader.FieldCount; i++)
                         {
-                            row[i] = dataReader.GetString(i);
+                            if (dataReader.IsDBNull(i))
+                            {
+                                row[i] = null;
+                            }
+                            else
+                            {
+                                row[i] = dataReader.GetString(i);
+                            }
                         }
                         result.Data.Add(row);
                     }

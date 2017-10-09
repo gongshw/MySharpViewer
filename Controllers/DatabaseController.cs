@@ -45,6 +45,18 @@ namespace MySharpView.Controllers
             }
             return result;
         }
+
+        [HttpPost("[action]")]
+        public QueryResult Query([FromBody] QueryRequest request)
+        {
+            var instance = HttpContext.Session.GetString(SESSION_KEYT_INSTANCE);
+            if (instance == null)
+            {
+                return null;
+            }
+            var connection = JsonConvert.DeserializeObject<InstanceConnection>(instance);
+            return connection.Connection.Query(request.Database, request.Sql);
+        }
     }
 
     public class OpenResult
@@ -52,5 +64,11 @@ namespace MySharpView.Controllers
         public InstanceConnection Connection;
         public bool Success;
         public string Message;
+    }
+
+    public class QueryRequest
+    {
+        public string Database;
+        public string Sql;
     }
 }

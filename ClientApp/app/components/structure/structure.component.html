@@ -1,0 +1,33 @@
+<md-table #table [dataSource]="dataSource">
+
+    <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+    <ng-container mdColumnDef="field">
+        <md-header-cell *mdHeaderCellDef> 列 </md-header-cell>
+        <md-cell *mdCellDef="let element"> {{element.field}} </md-cell>
+    </ng-container>
+
+    <ng-container mdColumnDef="type">
+        <md-header-cell *mdHeaderCellDef> 类型 </md-header-cell>
+        <md-cell *mdCellDef="let element"> {{element.type}} </md-cell>
+    </ng-container>
+
+    <ng-container mdColumnDef="key">
+        <md-header-cell *mdHeaderCellDef> 索引 </md-header-cell>
+        <md-cell *mdCellDef="let element"> {{element.key}} </md-cell>
+    </ng-container>
+
+    <ng-container mdColumnDef="extra">
+        <md-header-cell *mdHeaderCellDef> Extra </md-header-cell>
+        <md-cell *mdCellDef="let element"> {{element.extra}} </md-cell>
+    </ng-container>
+
+    <ng-container mdColumnDef="comment">
+        <md-header-cell *mdHeaderCellDef> 备注 </md-header-cell>
+        <md-cell *mdCellDef="let element"> {{element.comment}} </md-cell>
+    </ng-container>
+
+    <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
+</md-table>
