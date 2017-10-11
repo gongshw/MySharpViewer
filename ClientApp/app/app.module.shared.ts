@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './components/app/app.component';
 import { ConnectionPanel } from "./components/connection/connection.component";
 import { StructurePanel } from "./components/structure/structure.component";
+import { DataPanel } from "./components/data/data.component";
 
 import { MatButtonModule } from '@angular/material';
 import { MatCardModule } from '@angular/material';
@@ -17,10 +18,11 @@ import { MatProgressBarModule } from '@angular/material';
 import { MatToolbarModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material';
 import { MatTableModule } from '@angular/material';
+import {MatPaginatorModule} from '@angular/material';
 
 @NgModule({
     declarations: [
-        AppComponent, ConnectionPanel, StructurePanel
+        AppComponent, ConnectionPanel, StructurePanel, DataPanel
     ],
     imports: [
         CommonModule,
@@ -34,7 +36,8 @@ import { MatTableModule } from '@angular/material';
         MatIconModule,
         MatToolbarModule,
         MatSelectModule,
-        MatTableModule
+        MatTableModule,
+        MatPaginatorModule
     ]
 })
 export class AppModuleShared {

@@ -1,0 +1,28 @@
+<div *ngIf="database.table">
+    <div class="filter-panel">
+        <md-select placeholder="筛选字段" [(ngModel)]="fieldFilter.field">
+            <md-option *ngFor="let field of displayedColumns" [value]="field">{{ field }}</md-option>
+        </md-select>
+        <md-select placeholder="运算符" [(ngModel)]="fieldFilter.operator">
+            <md-option *ngFor="let field of availableOperators" [value]="field">{{ field }}</md-option>
+        </md-select>
+        <md-form-field>
+            <input mdInput placeholder="值" [(ngModel)]="fieldFilter.value">
+        </md-form-field>
+        <button md-button (click)="updateFilter()">筛选</button>
+    </div>
+    <div class="data-table-container">
+        <md-table #table [dataSource]="dataSource">
+            <ng-container *ngFor="let field of displayedColumns" [mdColumnDef]="field">
+                <md-header-cell *mdHeaderCellDef> {{field}} </md-header-cell>
+                <md-cell *mdCellDef="let element"> {{element[field]}} </md-cell>
+            </ng-container>
+
+            <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+            <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
+        </md-table>
+    </div>
+</div>
+
+<md-paginator #paginator [length]="100" [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 10, 25, 100]">
+</md-paginator>

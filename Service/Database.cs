@@ -61,9 +61,7 @@ namespace MySharpView.Service
             MySqlConnection mySqlConnection = innerConnection();
             if (mySqlConnection == null)
             {
-                mySqlConnection = new MySqlConnection(connStr);
-                mySqlConnection.Open();
-                InstancePool.pool[connStr] = mySqlConnection;
+                mySqlConnection = innerOpen(connStr);
             }
 
             var databases = mySqlConnection.Query("show databases");
@@ -98,14 +96,32 @@ namespace MySharpView.Service
             string connStr = $"server={this.host};user={this.username};database={this.database};port={this.port};password={this.password};SslMode=none";
             if (InstancePool.pool.ContainsKey(connStr))
             {
-                return InstancePool.pool[connStr];
+                MySqlConnection conn = InstancePool.pool[connStr];
+                try
+                {
+                    conn.Query("select 1");
+                }
+                catch
+                {
+                    conn = innerOpen(connStr);
+                }
+                return conn;
             }
             else
             {
                 return null;
             }
         }
+
+        private MySqlConnection innerOpen(string connStr)
+        {
+            var mySqlConnection = new MySqlConnection(connStr);
+            mySqlConnection.Open();
+            InstancePool.pool[connStr] = mySqlConnection;
+            return mySqlConnection;
+        }
     }
+
 
     public static class MysqlExtensions
     {

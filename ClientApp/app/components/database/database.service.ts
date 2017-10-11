@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs';
 
@@ -21,6 +21,18 @@ export class DatabaseService {
             return null;
         }
         return this.instance.instance.databases.find(db => { return db['name'] == this.database });
+    }
+
+    query(sql: string): Observable<Response> {
+        console.log(sql);
+        return this.http.post(
+            this.baseUrl + 'api/Database/Query',
+            JSON.stringify({
+                database: this.database,
+                sql: sql
+            }),
+            new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) })
+        );
     }
 }
 

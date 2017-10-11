@@ -53,14 +53,7 @@ export class ConnectionPanel implements AfterViewInit {
     }
 
     public updateTable(event: Event) {
-        this.http.post(
-            this.baseUrl + 'api/Database/Query',
-            JSON.stringify({
-                database: this.database.database,
-                sql: "show full columns from " + this.database.table
-            }),
-            new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) })
-        ).subscribe(
+        this.database.query("show full columns from " + this.database.table).subscribe(
             result => {
                 var struct = result.json();
                 console.log(struct);
@@ -78,6 +71,6 @@ export class ConnectionPanel implements AfterViewInit {
             },
             error => console.error(error),
             () => this.loading = false
-            );
+        );
     }
 }

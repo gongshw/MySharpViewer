@@ -1,3 +1,11 @@
+.filter-panel {
+    padding: 0 24px;
+}
+
+.data-table-container {
+    overflow: scroll;
+}
+
 md-table {
     display: table;
 }
@@ -9,7 +17,10 @@ md-header-row, md-row {
 
 md-header-cell, md-cell {
     display: table-cell;
-    word-break: keep-all;
     padding: 12px 0 12px 24px;
     border-bottom: 1px solid #ddd;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
